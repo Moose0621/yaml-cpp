@@ -19,6 +19,7 @@ enum EMITTER_MANIP {
   // output character set
   EmitNonAscii,
   EscapeNonAscii,
+  EscapeAsJson,
 
   // string manipulators
   // Auto, // duplicate
@@ -26,6 +27,12 @@ enum EMITTER_MANIP {
   DoubleQuoted,
   Literal,
   PreferUnquoted,
+
+  // null manipulators
+  LowerNull,
+  UpperNull,
+  CamelNull,
+  TildeNull,
 
   // bool manipulators
   YesNoBool,      // yes, no
@@ -75,14 +82,14 @@ struct _Alias {
   std::string content;
 };
 
-inline _Alias Alias(const std::string content) { return _Alias(content); }
+inline _Alias Alias(const std::string& content) { return _Alias(content); }
 
 struct _Anchor {
   _Anchor(const std::string& content_) : content(content_) {}
   std::string content;
 };
 
-inline _Anchor Anchor(const std::string content) { return _Anchor(content); }
+inline _Anchor Anchor(const std::string& content) { return _Anchor(content); }
 
 struct _Tag {
   struct Type {
@@ -97,11 +104,11 @@ struct _Tag {
   Type::value type;
 };
 
-inline _Tag VerbatimTag(const std::string content) {
+inline _Tag VerbatimTag(const std::string& content) {
   return _Tag("", content, _Tag::Type::Verbatim);
 }
 
-inline _Tag LocalTag(const std::string content) {
+inline _Tag LocalTag(const std::string& content) {
   return _Tag("", content, _Tag::Type::PrimaryHandle);
 }
 
@@ -109,7 +116,7 @@ inline _Tag LocalTag(const std::string& prefix, const std::string content) {
   return _Tag(prefix, content, _Tag::Type::NamedHandle);
 }
 
-inline _Tag SecondaryTag(const std::string content) {
+inline _Tag SecondaryTag(const std::string& content) {
   return _Tag("", content, _Tag::Type::NamedHandle);
 }
 
@@ -118,7 +125,7 @@ struct _Comment {
   std::string content;
 };
 
-inline _Comment Comment(const std::string content) { return _Comment(content); }
+inline _Comment Comment(const std::string& content) { return _Comment(content); }
 
 struct _Precision {
   _Precision(int floatPrecision_, int doublePrecision_)
