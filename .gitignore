@@ -1,5 +1,6 @@
 build/
 /tags
+/bazel-*
 
 # RTC ignores
 # Premake generated files #
